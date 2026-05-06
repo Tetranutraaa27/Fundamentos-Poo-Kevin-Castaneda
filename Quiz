@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+
+// Clase base
+class Producto {
+protected:
+    std::string name;
+    double price;
+    int quantity;
+
+public:
+    Producto(std::string n, double p, int c)
+        : name(n), price(p), quantity(c) {}
+
+    double calcularTotal() {
+        return price * quantity;
+    }
+
+    void mostrar() {
+        std::cout << "\n--- Producto ---\n";
+        std::cout << "Nombre: " << name << std::endl;
+        std::cout << "Precio: " << price << std::endl;
+        std::cout << "Cantidad: " << quantity << std::endl;
+        std::cout << "Total: " << calcularTotal() << std::endl;
+    }
+};
+
+// Clase hija
+class ConDescuento : public Producto {
+private:
+    double discount;
+
+public:
+    ConDescuento(std::string n, double p, int c, double d)
+        : Producto(n, p, c), discount(d) {}
+
+    double calcularTotalConDescuento() {
+        double total = price * quantity;
+        return total - (total * discount);
+    }
+
+    void mostrarConDescuento() {
+        std::cout << "\n--- Producto con Descuento ---\n";
+        std::cout << "Nombre: " << name << std::endl;
+        std::cout << "Precio: " << price << std::endl;
+        std::cout << "Cantidad: " << quantity << std::endl;
+        std::cout << "Descuento: " << discount * 100 << "%\n";
+        std::cout << "Total con descuento: " << calcularTotalConDescuento() << std::endl;
+    }
+};
+
+int main() {
+    // Arreglos separados (sin polimorfismo)
+    Producto* product[2];
+    ConDescuento* productDisc[2];
+
+    // Productos normales
+    product[0] = new Producto("Audifonos", 30000, 3);
+    product[1] = new Producto("Cargador Generico", 25000, 2);
+
+    // Productos con descuento
+    productDisc[0] = new ConDescuento("Laptop", 2500000, 1, 0.10);
+    productDisc[1] = new ConDescuento("Celular", 1200000, 1, 0.15);
+
+    // Mostrar normales
+    for (int i = 0; i < 2; i++) {
+        product[i]->mostrar();
+    }
+
+    // Mostrar con descuento
+    for (int i = 0; i < 2; i++) {
+        productDisc[i]->mostrarConDescuento();
+    }
+
+    // Liberar memoria
+    for (int i = 0; i < 2; i++) {
+        delete product[i];
+        delete productDisc[i];
+    }
+
+    return 0;
+}

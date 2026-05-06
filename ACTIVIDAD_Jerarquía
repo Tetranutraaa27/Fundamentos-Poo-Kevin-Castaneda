@@ -25,3 +25,18 @@ public:
         return puntosTemporada;
     }
 };
+
+class Jugador : public EquipoFutbol {
+private:
+    std::string nombreJugador;
+    int numero;
+    std :: int golesAnotados;
+    std :: string posicion;
+
+public:
+    void setJugador(const std::string& n, int num) {
+        nombreJugador = n;
+        numero = num;
+    }
+
+};
