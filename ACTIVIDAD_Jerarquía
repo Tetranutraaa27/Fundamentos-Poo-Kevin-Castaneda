@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+
+class EquipoFutbol {
+private:
+    std::string nombre;
+
+protected:
+    int puntosTemporada;
+
+public:
+    void setNombre(const std::string& n) {
+        nombre = n;
+    }
+
+    std::string getNombre() const {
+        return nombre;
+    }
+
+    void setPuntos(int p) {
+        puntosTemporada = p;
+    }
+
+    int getPuntos() const {
+        return puntosTemporada;
+    }
+};
+
+class Jugador : public EquipoFutbol {
+private:
+    std::string nombreJugador;
+    int numero;
+    std :: int golesAnotados;
+    std :: string posicion;
+
+public:
+    void setJugador(const std::string& n, int num) {
+        nombreJugador = n;
+        numero = num;
+    }
+
+};

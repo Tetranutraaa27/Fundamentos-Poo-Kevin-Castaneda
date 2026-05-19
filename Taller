@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Persona {
+private:
+    std::string nombre;
+    std::string apellido;
+    int edad;
+    std::string documento;
+
+public:
+    Persona(std::string nombre, std::string apellido, int edad, std::string documento)
+        : nombre(nombre), apellido(apellido), edad(edad), documento(documento) {}
+
+    virtual ~Persona() {}
+
+    // Getters y setters (encapsulación)
+    std::string getNombre() { return nombre; }
+    void setNombre(std::string nombre) { this->nombre = nombre; }
+
+    std::string getApellido() { return apellido; }
+    void setApellido(std::string apellido) { this->apellido = apellido; }
+
+    int getEdad() { return edad; }
+    void setEdad(int edad) { this->edad = edad; }
+
+    std::string getDocumento() { return documento; }
+    void setDocumento(std::string documento) { this->documento = documento; }
+
+    // Método polimórfico
+    virtual void mostrarInformacion() {
+        std::cout << "Nombre: " << nombre << " " << apellido
+                  << ", Edad: " << edad
+                  << ", Documento: " << documento << std::endl;
+    }
+};
+
