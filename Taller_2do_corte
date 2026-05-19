@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-//Clase persona
+//Clase persona (base)
 class Persona {
 private:
     std::string nombre;
@@ -37,7 +37,7 @@ public:
     }
 };
 
-// Clase estudiante
+//Clase Estudiante 
 class Estudiante : public Persona {
 private:
     std::string codigo;
@@ -58,6 +58,24 @@ public:
         Persona::mostrarInformacion();
         std::cout << "Código: " << codigo << ", Semestre: " << semestre
                   << ", Promedio: " << promedio << std::endl;
+    }
+};
+
+//Clase profesor
+class Profesor : public Persona {
+private:
+    std::string especialidad;
+    double salario;
+
+public:
+    Profesor(std::string nombre, std::string apellido, int edad, std::string documento,
+             std::string especialidad, double salario)
+        : Persona(nombre, apellido, edad, documento),
+          especialidad(especialidad), salario(salario) {}
+
+    void mostrarInformacion() override {
+        Persona::mostrarInformacion();
+        std::cout << "Especialidad: " << especialidad << ", Salario: " << salario << std::endl;
     }
 };
 
