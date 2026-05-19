@@ -79,3 +79,152 @@ public:
     }
 };
 
+// Clase curso
+class Curso {
+private:
+    std::string nombreCurso;
+    std::string codigoCurso;
+    int creditos;
+    Profesor* profesor;
+    std::vector<Estudiante*> estudiantes;
+
+public:
+    Curso(std::string nombreCurso, std::string codigoCurso, int creditos)
+        : nombreCurso(nombreCurso), codigoCurso(codigoCurso), creditos(creditos), profesor(nullptr) {}
+
+    void registrarProfesor(Profesor* prof) { profesor = prof; }
+    void registrarEstudiante(Estudiante* est) { estudiantes.push_back(est); }
+
+    void mostrarInformacion() {
+        std::cout << "Curso: " << nombreCurso << " (" << codigoCurso << "), Créditos: " << creditos << std::endl;
+        if (profesor) {
+            std::cout << "Profesor: ";
+            profesor->mostrarInformacion();
+        }
+        std::cout << "Estudiantes inscritos: " << estudiantes.size() << std::endl;
+    }
+
+    std::string getCodigoCurso() { return codigoCurso; }
+};
+
+// Clase matricula
+class Matricula {
+private:
+    Estudiante* estudiante;
+    Curso* curso;
+    std::string estado;
+    float notaFinal;
+
+public:
+    Matricula(Estudiante* estudiante, Curso* curso, std::string estado, float notaFinal)
+        : estudiante(estudiante), curso(curso), estado(estado), notaFinal(notaFinal) {}
+
+    void asignarCurso(Curso* curso) { this->curso = curso; }
+
+    void mostrarInformacion() {
+        std::cout << "Matrícula - Estado: " << estado << ", Nota Final: " << notaFinal << std::endl;
+        std::cout << "Estudiante: ";
+        estudiante->mostrarInformacion();
+        std::cout << "Curso: ";
+        curso->mostrarInformacion();
+    }
+};
+
+// Menu
+int main() {
+    std::vector<Estudiante*> estudiantes;
+    std::vector<Profesor*> profesores;
+    std::vector<Curso*> cursos;
+    std::vector<Matricula*> matriculas;
+
+    int opcion;
+    do {
+        std::cout << "\n--- Sistema Académico ---\n";
+        std::cout << "1. Registrar estudiante\n";
+        std::cout << "2. Registrar profesor\n";
+        std::cout << "3. Crear curso\n";
+        std::cout << "4. Matricular estudiante\n";
+        std::cout << "5. Mostrar estudiantes\n";
+        std::cout << "6. Mostrar profesores\n";
+        std::cout << "7. Mostrar cursos\n";
+        std::cout << "8. Mostrar matrículas\n";
+        std::cout << "9. Salir\n";
+        std::cout << "Seleccione una opción: ";
+        std::cin >> opcion;
+
+        switch(opcion) {
+            case 1: {
+                std::string nombre, apellido, documento, codigo;
+                int edad, semestre;
+                float promedio;
+                std::cout << "Nombre: "; std::cin >> nombre;
+                std::cout << "Apellido: "; std::cin >> apellido;
+                std::cout << "Edad: "; std::cin >> edad;
+                std::cout << "Documento: "; std::cin >> documento;
+                std::cout << "Código: "; std::cin >> codigo;
+                std::cout << "Semestre: "; std::cin >> semestre;
+                std::cout << "Promedio: "; std::cin >> promedio;
+                estudiantes.push_back(new Estudiante(nombre, apellido, edad, documento, codigo, semestre, promedio));
+                break;
+            }
+            case 2: {
+                std::string nombre, apellido, documento, especialidad;
+                int edad;
+                double salario;
+                std::cout << "Nombre: "; std::cin >> nombre;
+                std::cout << "Apellido: "; std::cin >> apellido;
+                std::cout << "Edad: "; std::cin >> edad;
+                std::cout << "Documento: "; std::cin >> documento;
+                std::cout << "Especialidad: "; std::cin >> especialidad;
+                std::cout << "Salario: "; std::cin >> salario;
+                profesores.push_back(new Profesor(nombre, apellido, edad, documento, especialidad, salario));
+                break;
+            }
+            case 3: {
+                std::string nombreCurso, codigoCurso;
+                int creditos;
+                std::cout << "Nombre del curso: "; std::cin >> nombreCurso;
+                std::cout << "Código del curso: "; std::cin >> codigoCurso;
+                std::cout << "Créditos: "; std::cin >> creditos;
+                cursos.push_back(new Curso(nombreCurso, codigoCurso, creditos));
+                break;
+            }
+            case 4: {
+                if(estudiantes.empty() || cursos.empty()) {
+                    std::cout << "Debe haber al menos un estudiante y un curso.\n";
+                    break;
+                }
+                int idxEst, idxCur;
+                std::cout << "Seleccione estudiante (0-" << estudiantes.size()-1 << "): ";
+                std::cin >> idxEst;
+                std::cout << "Seleccione curso (0-" << cursos.size()-1 << "): ";
+                std::cin >> idxCur;
+                std::string estado;
+                float nota;
+                std::cout << "Estado de matrícula: "; std::cin >> estado;
+                std::cout << "Nota final: "; std::cin >> nota;
+                cursos[idxCur]->registrarEstudiante(estudiantes[idxEst]);
+                matriculas.push_back(new Matricula(estudiantes[idxEst], cursos[idxCur], estado, nota));
+                break;
+            }
+            case 5: {
+                for (auto e : estudiantes) e->mostrarInformacion();
+                break;
+            }
+            case 6: {
+                for (auto p : profesores) p->mostrarInformacion();
+                break;
+            }
+            case 7: {
+                for (auto c : cursos) c->mostrarInformacion();
+                break;
+            }
+            case 8: {
+                for (auto m : matriculas) m->mostrarInformacion();
+                break;
+            }
+        }
+    } while(opcion != 9);
+
+    return 0;
+}
