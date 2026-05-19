@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-//Clase persona (base)
+//Clase persona
 class Persona {
 private:
     std::string nombre;
@@ -34,6 +34,30 @@ public:
         std::cout << "Nombre: " << nombre << " " << apellido
                   << ", Edad: " << edad
                   << ", Documento: " << documento << std::endl;
+    }
+};
+
+// Clase estudiante
+class Estudiante : public Persona {
+private:
+    std::string codigo;
+    int semestre;
+    float promedio;
+
+public:
+    Estudiante(std::string nombre, std::string apellido, int edad, std::string documento,
+               std::string codigo, int semestre, float promedio)
+        : Persona(nombre, apellido, edad, documento),
+          codigo(codigo), semestre(semestre), promedio(promedio) {}
+
+    void inscribirCurso(std::string curso) {
+        std::cout << "Estudiante " << getNombre() << " inscrito en curso: " << curso << std::endl;
+    }
+
+    void mostrarInformacion() override {
+        Persona::mostrarInformacion();
+        std::cout << "Código: " << codigo << ", Semestre: " << semestre
+                  << ", Promedio: " << promedio << std::endl;
     }
 };
 
